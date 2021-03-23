@@ -1,5 +1,11 @@
-import { createSlice, Action, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  Action,
+  PayloadAction,
+  createAsyncThunk,
+} from '@reduxjs/toolkit';
 import { RootState } from './index';
+import * as Api from '../api/deezer';
 export interface HomeSliceState {
   tracks: {
     data: any[];
@@ -30,6 +36,13 @@ const initialState: HomeSliceState = {
   },
 };
 
+export const getHomeTracks = createAsyncThunk('home/tracks', async () => {
+  console.log('fetch');
+  const rtn = await Api.searchTracks({ string: 't', limit: 10 });
+  console.log(rtn);
+  return rtn.data;
+});
+
 const homeSlice = createSlice({
   name: 'home',
   initialState,
@@ -40,6 +53,15 @@ const homeSlice = createSlice({
     getPlayListSuccess() {},
     getUsers() {},
     getUsersSuccess() {},
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getHomeTracks.pending, (state) => {
+      state.tracks.isLoading = true;
+    });
+
+    builder.addCase(getHomeTracks.fulfilled, (state, action) => {
+      state.tracks.data = action.payload;
+    });
   },
 });
 

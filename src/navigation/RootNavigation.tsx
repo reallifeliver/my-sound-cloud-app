@@ -7,7 +7,6 @@ import { RootTabParamList } from '../types/navigation';
 import colors from '../styles/colors';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import HomeStackScreen from './home/HomeStackNavigation';
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
@@ -40,8 +39,8 @@ const RootNavigation = () => {
           }}
         />
         <Tab.Screen
-          name='Home Stack'
-          component={HomeStackScreen}
+          name='Home'
+          component={HomeScreen}
           options={{
             title: 'Home',
             tabBarIcon: ({ focused, color, size }) => (

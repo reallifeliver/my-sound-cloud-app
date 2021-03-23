@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReactNode } from 'react';
 import { View, StyleSheet } from 'react-native';
-import colors from 'styles/colors';
+import colors from '../../styles/colors';
 
 interface Props {
   children: ReactNode;
@@ -12,7 +12,7 @@ const Section = ({ children }: Props) => {
 
 const styles = StyleSheet.create({
   section: {
-    padding: 8,
+    padding: 16,
     backgroundColor: colors.G_0,
     marginBottom: 4,
   },
