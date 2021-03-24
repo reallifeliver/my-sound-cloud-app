@@ -8,23 +8,33 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import colors from '../styles/colors';
 import HomeContent from '../components/home/HomeContent';
-import { useDispatch } from 'react-redux';
-import { getHomeTracks } from '../slice/homeSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { getHomeNewReleases } from '../slice/homeThunk';
+import { homeReleasesSelector } from '../slice/homeSlice';
+import NewReleaseAlbumList from '../components/home/NewReleaseAlbumList';
 interface Props {
-  navigation: StackNavigationProp<RootTabParamList, 'Home'>;
-  route: RouteProp<RootTabParamList, 'Home'>;
+  navigation: StackNavigationProp<RootTabParamList, 'HomeStack'>;
+  route: RouteProp<RootTabParamList, 'HomeStack'>;
 }
 
-const Home = ({ navigation, route }: Props) => {
+const HomeScreen = ({ navigation, route }: Props) => {
   const dispatch = useDispatch();
+  const newReleaseList = useSelector(homeReleasesSelector);
   useEffect(() => {
-    dispatch(getHomeTracks());
+    dispatch(getHomeNewReleases());
   }, []);
 
+  const onSelectAlbum = (id: string) => {
+    console.log(id);
+  };
+  console.log(newReleaseList);
   return (
     <View style={styles.wrapper}>
-      <HomeContent title='Tracks' link='test'>
-        <Text>test</Text>
+      <HomeContent title='New Release' link='test'>
+        <NewReleaseAlbumList
+          list={newReleaseList}
+          onSelectAlbum={onSelectAlbum}
+        />
       </HomeContent>
     </View>
   );
@@ -33,22 +43,5 @@ const Home = ({ navigation, route }: Props) => {
 const styles = StyleSheet.create({
   wrapper: {},
 });
-
-const HomeStack = createStackNavigator();
-
-export const HomeScreen = () => {
-  return (
-    <HomeStack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: colors.PRIMARY,
-        },
-        headerTintColor: colors.G_0,
-      }}
-    >
-      <HomeStack.Screen name='HOME' component={Home} />
-    </HomeStack.Navigator>
-  );
-};
 
 export default HomeScreen;

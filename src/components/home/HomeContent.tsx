@@ -15,7 +15,7 @@ const HomeContent = ({ title, link, children }: Props) => {
         <Text style={styles.title}>{title}</Text>
         <Text onPress={() => {}}>more</Text>
       </View>
-      <View style={styles.body}></View>
+      <View style={styles.body}>{children}</View>
     </Section>
   );
 };
@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingBottom: 16,
   },
   title: {
     fontSize: 20,

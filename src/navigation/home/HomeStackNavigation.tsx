@@ -15,7 +15,7 @@ export const HomeStackScreen = () => {
         headerTintColor: colors.G_0,
       }}
     >
-      <HomeStack.Screen name='HOME' component={HomeScreen} />
+      <HomeStack.Screen name='Home' component={HomeScreen} />
     </HomeStack.Navigator>
   );
 };

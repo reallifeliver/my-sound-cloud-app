@@ -4,11 +4,12 @@ import {
   PayloadAction,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
+import { getHomeNewReleases } from './homeThunk';
 import { RootState } from './index';
-import * as Api from '../api/deezer';
+import { ListOfNewReleasesResponse } from 'types/spotify';
 export interface HomeSliceState {
-  tracks: {
-    data: any[];
+  releases: {
+    data: ListOfNewReleasesResponse;
     isLoading: boolean;
   };
   playLists: {
@@ -22,8 +23,18 @@ export interface HomeSliceState {
 }
 
 const initialState: HomeSliceState = {
-  tracks: {
-    data: [],
+  releases: {
+    data: {
+      albums: {
+        href: '',
+        items: [],
+        limit: 0,
+        next: '',
+        offset: 0,
+        previous: '',
+        total: 0,
+      },
+    },
     isLoading: false,
   },
   playLists: {
@@ -35,13 +46,6 @@ const initialState: HomeSliceState = {
     isLoading: false,
   },
 };
-
-export const getHomeTracks = createAsyncThunk('home/tracks', async () => {
-  console.log('fetch');
-  const rtn = await Api.searchTracks({ string: 't', limit: 10 });
-  console.log(rtn);
-  return rtn.data;
-});
 
 const homeSlice = createSlice({
   name: 'home',
@@ -55,12 +59,16 @@ const homeSlice = createSlice({
     getUsersSuccess() {},
   },
   extraReducers: (builder) => {
-    builder.addCase(getHomeTracks.pending, (state) => {
-      state.tracks.isLoading = true;
+    builder.addCase(getHomeNewReleases.pending, (state) => {
+      state.releases.isLoading = true;
     });
-
-    builder.addCase(getHomeTracks.fulfilled, (state, action) => {
-      state.tracks.data = action.payload;
+    builder.addCase(getHomeNewReleases.fulfilled, (state, action) => {
+      state.releases.data = action.payload;
+      state.releases.isLoading = false;
+    });
+    builder.addCase(getHomeNewReleases.rejected, (state, action) => {
+      console.error(action.payload); // FIXME 에러처리
+      state.releases.isLoading = false;
     });
   },
 });
@@ -68,6 +76,7 @@ const homeSlice = createSlice({
 export const honmeActions = homeSlice.actions;
 export const homeReducer = homeSlice.reducer;
 
-export const homeTrasksSelector = (state: RootState) => state.home.tracks;
+export const homeReleasesSelector = (state: RootState) =>
+  state.home.releases.data.albums.items;
 export const homePlayListsSelector = (state: RootState) => state.home.playLists;
 export const homeUsersSelector = (state: RootState) => state.home.users;

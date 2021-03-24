@@ -1,18 +1,15 @@
-import axios, { AxiosResponse, AxiosPromise, AxiosRequestConfig } from 'axios';
-import SpotifyWebApi from 'spotify-web-api-js';
+import axios, { AxiosRequestConfig, AxiosPromise } from 'axios';
+import {
+  ListOfNewRleasesParameter,
+  ListOfNewReleasesResponse,
+} from '../types/spotify';
+import SpotifyApi from 'spotify-web-api-js';
 
 const client_id = '26e94a1b780d4626b4b9d79a397358ce';
 const client_secret = '1353f017549f41df8dd300ad14cfa9a6';
 const instance = axios.create({
   baseURL: 'https://api.spotify.com',
 });
-
-const spotifyApi = new SpotifyWebApi();
-interface SearchTracksParam {
-  contry?: string;
-  limit?: number;
-  offset?: number;
-}
 
 const auth = btoa(client_id + ':' + client_secret);
 
@@ -37,15 +34,16 @@ instance.interceptors.request.use(async (config: AxiosRequestConfig) => {
   return config;
 });
 
-export const searchTracks = ({
+export const getNewReleases = ({
   contry = 'KR',
   limit = 10,
-  offset = 5,
-}: SearchTracksParam) => {
-  console.log('searchTrackssearchTracks');
-
+  offset = 0,
+}: ListOfNewRleasesParameter) => {
+  console.log('GetNewReleaseParam');
   return instance
-    .get('/v1/browse/new-releases')
+    .get<ListOfNewReleasesResponse>('/v1/browse/new-releases', {
+      params: { contry, limit, offset },
+    })
     .then((rtn) => rtn)
     .catch((err) => console.error(err));
 };

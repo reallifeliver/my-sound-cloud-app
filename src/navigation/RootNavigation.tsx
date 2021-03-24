@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import PlayListScreen from '../screens/PlayListScreen';
 import MusicListScreen from '../screens/MusicListScreen';
-import HomeScreen from '../screens/HomeScreen';
+import HomeStackNavigation from './home/HomeStackNavigation';
 import { RootTabParamList } from '../types/navigation';
 import colors from '../styles/colors';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -39,8 +39,8 @@ const RootNavigation = () => {
           }}
         />
         <Tab.Screen
-          name='Home'
-          component={HomeScreen}
+          name='HomeStack'
+          component={HomeStackNavigation}
           options={{
             title: 'Home',
             tabBarIcon: ({ focused, color, size }) => (
