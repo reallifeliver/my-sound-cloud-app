@@ -4,7 +4,7 @@ import {
   PayloadAction,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
-import { getHomeNewReleases } from './homeThunk';
+import { getHomeNewReleases, getHomeFeaturedPlayList } from './homeThunk';
 import { RootState } from './index';
 import { ListOfNewReleasesResponse } from 'types/spotify';
 export interface HomeSliceState {
@@ -69,6 +69,18 @@ const homeSlice = createSlice({
     builder.addCase(getHomeNewReleases.rejected, (state, action) => {
       console.error(action.payload); // FIXME 에러처리
       state.releases.isLoading = false;
+    });
+
+    builder.addCase(getHomeFeaturedPlayList.pending, (state) => {
+      state.playLists.isLoading = true;
+    });
+
+    builder.addCase(getHomeFeaturedPlayList.fulfilled, (state, action) => {
+      state.playLists.data = action.payload;
+    });
+
+    builder.addCase(getHomeFeaturedPlayList.rejected, (state, action) => {
+      state.playLists.isLoading = false;
     });
   },
 });

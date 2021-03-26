@@ -10,7 +10,6 @@ interface Props {
 }
 
 const NewReleaseAlbumList = ({ list, onSelectAlbum }: Props) => {
-  console.log('List');
   return (
     <View style={styles.wrapper}>
       <FlatList<AlbumObjectFull>

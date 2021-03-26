@@ -14,6 +14,7 @@ const RootNavigation = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
+        initialRouteName={'HomeStack'}
         tabBarOptions={{
           activeTintColor: colors.PRIMARY,
         }}

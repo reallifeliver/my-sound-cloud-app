@@ -44,6 +44,15 @@ export const getNewReleases = ({
     .get<ListOfNewReleasesResponse>('/v1/browse/new-releases', {
       params: { contry, limit, offset },
     })
-    .then((rtn) => rtn)
+    .then((rtn) => rtn.data)
+    .catch((err) => console.error(err));
+};
+
+export const getFeaturedPlayList = ({}) => {
+  return instance
+    .get('v1/browse/featured-playlists', {
+      params: {},
+    })
+    .then((rtn) => rtn.data)
     .catch((err) => console.error(err));
 };

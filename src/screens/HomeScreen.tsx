@@ -9,7 +9,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import colors from '../styles/colors';
 import HomeContent from '../components/home/HomeContent';
 import { useDispatch, useSelector } from 'react-redux';
-import { getHomeNewReleases } from '../slice/homeThunk';
+import {
+  getHomeNewReleases,
+  getHomeFeaturedPlayList,
+} from '../slice/homeThunk';
 import { homeReleasesSelector } from '../slice/homeSlice';
 import NewReleaseAlbumList from '../components/home/NewReleaseAlbumList';
 interface Props {
@@ -22,6 +25,7 @@ const HomeScreen = ({ navigation, route }: Props) => {
   const newReleaseList = useSelector(homeReleasesSelector);
   useEffect(() => {
     dispatch(getHomeNewReleases());
+    dispatch(getHomeFeaturedPlayList());
   }, []);
 
   const onSelectAlbum = (id: string) => {
@@ -35,6 +39,9 @@ const HomeScreen = ({ navigation, route }: Props) => {
           list={newReleaseList}
           onSelectAlbum={onSelectAlbum}
         />
+      </HomeContent>
+      <HomeContent title='PlayList' link='test'>
+        <Text>art</Text>
       </HomeContent>
     </View>
   );

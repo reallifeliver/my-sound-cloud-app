@@ -14,7 +14,10 @@ const styles = StyleSheet.create({
   section: {
     padding: 16,
     backgroundColor: colors.G_0,
-    marginBottom: 4,
+    marginBottom: 8,
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: colors.G_500,
+    shadowOpacity: 0.1,
   },
 });
 
