@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
-import { AlbumObjectFull } from '../../types/spotify';
+import { PlaylistObjectSimplified } from '../../types/spotify';
 import colors from '../../styles/colors';
 import ThumbnailItem from '../common/ThumnailItem';
 
 interface Props {
   onSelect: (id: string) => void;
-  list: AlbumObjectFull[];
+  list: PlaylistObjectSimplified[];
 }
 
-const NewReleaseAlbumList = ({ list, onSelect }: Props) => {
+const PlayListList = ({ list, onSelect }: Props) => {
   return (
     <View style={styles.wrapper}>
-      <FlatList<AlbumObjectFull>
+      <FlatList<PlaylistObjectSimplified>
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         data={list}
@@ -20,11 +20,7 @@ const NewReleaseAlbumList = ({ list, onSelect }: Props) => {
           <ThumbnailItem
             title={item.name}
             key={item.id}
-            subTitle={
-              item.artists.length > 1
-                ? `${item.artists[0].name} 외 ${item.artists.length - 1}명`
-                : item.artists[0].name
-            }
+            subTitle={`${item.tracks.total} 곡`}
             thumbnail={item.images[0].url}
             onPress={() => onSelect(item.id)}
           />
@@ -40,4 +36,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewReleaseAlbumList;
+export default PlayListList;

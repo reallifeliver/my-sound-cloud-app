@@ -1,20 +1,25 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { Button, View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootTabParamList } from '../types/navigation';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import colors from '../styles/colors';
 import HomeContent from '../components/home/HomeContent';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getHomeNewReleases,
   getHomeFeaturedPlayList,
+  getHomeCategoryList,
 } from '../slice/homeThunk';
-import { homeReleasesSelector } from '../slice/homeSlice';
+import {
+  homeReleasesSelector,
+  homePlayListsSelector,
+  homePlayListMessage,
+  homeCategoryListSelector,
+} from '../slice/homeSlice';
 import NewReleaseAlbumList from '../components/home/NewReleaseAlbumList';
+import PlayListList from '../components/home/PlayListList';
+import CategoryContainer from '../containers/home/CategoryContainer';
 interface Props {
   navigation: StackNavigationProp<RootTabParamList, 'HomeStack'>;
   route: RouteProp<RootTabParamList, 'HomeStack'>;
@@ -23,25 +28,33 @@ interface Props {
 const HomeScreen = ({ navigation, route }: Props) => {
   const dispatch = useDispatch();
   const newReleaseList = useSelector(homeReleasesSelector);
+  const playLists = useSelector(homePlayListsSelector);
+  const playListMessage = useSelector(homePlayListMessage);
+  const categoryList = useSelector(homeCategoryListSelector);
   useEffect(() => {
     dispatch(getHomeNewReleases());
     dispatch(getHomeFeaturedPlayList());
+    dispatch(getHomeCategoryList());
   }, []);
 
   const onSelectAlbum = (id: string) => {
     console.log(id);
   };
-  console.log(newReleaseList);
+
+  const onSelectPlayList = (id: string) => {
+    console.log(id);
+  };
+
   return (
     <View style={styles.wrapper}>
       <HomeContent title='New Release' link='test'>
-        <NewReleaseAlbumList
-          list={newReleaseList}
-          onSelectAlbum={onSelectAlbum}
-        />
+        <NewReleaseAlbumList list={newReleaseList} onSelect={onSelectAlbum} />
       </HomeContent>
-      <HomeContent title='PlayList' link='test'>
-        <Text>art</Text>
+      <HomeContent title={playListMessage} link='test'>
+        <PlayListList list={playLists} onSelect={onSelectPlayList} />
+      </HomeContent>
+      <HomeContent title={'Category'} link='test'>
+        <CategoryContainer categories={categoryList} />
       </HomeContent>
     </View>
   );

@@ -1,7 +1,12 @@
 import axios, { AxiosRequestConfig, AxiosPromise } from 'axios';
 import {
-  ListOfNewRleasesParameter,
+  ListOfNewReleasesParameter,
   ListOfNewReleasesResponse,
+  PlaylistObjectSimplified,
+  ListOfFeaturedPlaylistsResponse,
+  MultipleCategoriesResponse,
+  ListOfCategoryParameter,
+  ListofPlayListByCategoryParameter,
 } from '../types/spotify';
 import SpotifyApi from 'spotify-web-api-js';
 
@@ -38,7 +43,7 @@ export const getNewReleases = ({
   contry = 'KR',
   limit = 10,
   offset = 0,
-}: ListOfNewRleasesParameter) => {
+}: ListOfNewReleasesParameter) => {
   console.log('GetNewReleaseParam');
   return instance
     .get<ListOfNewReleasesResponse>('/v1/browse/new-releases', {
@@ -50,9 +55,40 @@ export const getNewReleases = ({
 
 export const getFeaturedPlayList = ({}) => {
   return instance
-    .get('v1/browse/featured-playlists', {
+    .get<ListOfFeaturedPlaylistsResponse>('/v1/browse/featured-playlists', {
       params: {},
     })
+    .then((rtn) => rtn.data)
+    .catch((err) => console.error(err));
+};
+
+export const getCategoryList = ({
+  contry = 'KR',
+  limit = 10,
+  offset = 0,
+  locale,
+}: ListOfCategoryParameter) => {
+  return instance
+    .get<MultipleCategoriesResponse>('/v1/browse/categories', {
+      params: { contry, limit, offset, locale },
+    })
+    .then((rtn) => rtn.data)
+    .catch((err) => console.error(err));
+};
+
+export const getPlayListByCategory = ({
+  contry = 'KR',
+  limit = 10,
+  offset = 0,
+  categoryId,
+}: ListofPlayListByCategoryParameter) => {
+  return instance
+    .get<ListOfFeaturedPlaylistsResponse>(
+      `/v1/browse/categories/${categoryId}/playlists`,
+      {
+        params: { contry, offset, limit },
+      }
+    )
     .then((rtn) => rtn.data)
     .catch((err) => console.error(err));
 };
