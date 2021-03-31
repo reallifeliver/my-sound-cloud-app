@@ -1,22 +1,19 @@
-import {
-  createSlice,
-  Action,
-  PayloadAction,
-  createAsyncThunk,
-} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   getHomeNewReleases,
   getHomeFeaturedPlayList,
   getHomeCategoryList,
+  getHomeCategoryPlayList,
 } from './homeThunk';
 import { RootState } from './index';
 import {
   ListOfNewReleasesResponse,
-  PlaylistObjectSimplified,
   ListOfFeaturedPlaylistsResponse,
   MultipleCategoriesResponse,
-  CategoryObject,
+  PlayListByCategoriesThunksSuccess,
+  PlaylistObjectSimplified,
 } from 'types/spotify';
+
 export interface HomeSliceState {
   releases: {
     data: ListOfNewReleasesResponse;
@@ -33,8 +30,9 @@ export interface HomeSliceState {
   categoryPlayList: {
     selectedId: string;
     data: {
-      [categoryId: string]: CategoryObject[];
+      [categoryId: string]: PlaylistObjectSimplified[];
     };
+    isLoading: boolean;
   };
 }
 
@@ -71,64 +69,79 @@ const initialState: HomeSliceState = {
   categoryPlayList: {
     selectedId: '',
     data: {},
+    isLoading: false,
   },
 };
 
 const homeSlice = createSlice({
   name: 'home',
   initialState,
-  reducers: {
-    getTracks(_: HomeSliceState, action: PayloadAction<void>) {},
-    getTracksSuccess() {},
-    getPlayList() {},
-    getPlayListSuccess() {},
-    getUsers() {},
-    getUsersSuccess() {},
-  },
+  reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getHomeNewReleases.pending, (state) => {
-      state.releases.isLoading = true;
-    });
-    builder.addCase(
-      getHomeNewReleases.fulfilled,
-      (state, action: PayloadAction<void | ListOfNewReleasesResponse>) => {
-        state.releases.data = action.payload as ListOfNewReleasesResponse;
+    builder
+      .addCase(getHomeNewReleases.pending, (state) => {
+        state.releases.isLoading = true;
+      })
+      .addCase(
+        getHomeNewReleases.fulfilled,
+        (state, action: PayloadAction<void | ListOfNewReleasesResponse>) => {
+          state.releases.data = action.payload as ListOfNewReleasesResponse;
+          state.releases.isLoading = false;
+        }
+      )
+      .addCase(getHomeNewReleases.rejected, (state, action) => {
+        console.error(action.payload); // FIXME 에러처리
         state.releases.isLoading = false;
-      }
-    );
-    builder.addCase(getHomeNewReleases.rejected, (state, action) => {
-      console.error(action.payload); // FIXME 에러처리
-      state.releases.isLoading = false;
-    });
-    builder.addCase(getHomeFeaturedPlayList.pending, (state) => {
-      state.playLists.isLoading = true;
-    });
-    builder.addCase(
-      getHomeFeaturedPlayList.fulfilled,
-      (
-        state,
-        action: PayloadAction<void | ListOfFeaturedPlaylistsResponse>
-      ) => {
-        state.playLists.data = action.payload as ListOfFeaturedPlaylistsResponse;
+      })
+      .addCase(getHomeFeaturedPlayList.pending, (state) => {
+        state.playLists.isLoading = true;
+      })
+      .addCase(
+        getHomeFeaturedPlayList.fulfilled,
+        (
+          state,
+          action: PayloadAction<void | ListOfFeaturedPlaylistsResponse>
+        ) => {
+          state.playLists.data = action.payload as ListOfFeaturedPlaylistsResponse;
+          state.playLists.isLoading = false;
+        }
+      )
+      .addCase(getHomeFeaturedPlayList.rejected, (state, action) => {
         state.playLists.isLoading = false;
-      }
-    );
-    builder.addCase(getHomeFeaturedPlayList.rejected, (state, action) => {
-      state.playLists.isLoading = false;
-    });
-    builder.addCase(getHomeCategoryList.pending, (state) => {
-      state.categoryList.isLoading = true;
-    });
-    builder.addCase(
-      getHomeCategoryList.fulfilled,
-      (state, action: PayloadAction<void | MultipleCategoriesResponse>) => {
-        state.categoryList.data = action.payload as MultipleCategoriesResponse;
+      })
+      .addCase(getHomeCategoryList.pending, (state) => {
+        state.categoryList.isLoading = true;
+      })
+      .addCase(
+        getHomeCategoryList.fulfilled,
+        (state, action: PayloadAction<void | MultipleCategoriesResponse>) => {
+          state.categoryList.data = action.payload as MultipleCategoriesResponse;
+          state.categoryList.isLoading = false;
+        }
+      )
+      .addCase(getHomeCategoryList.rejected, (state) => {
         state.categoryList.isLoading = false;
-      }
-    );
-    builder.addCase(getHomeCategoryList.rejected, (state, action) => {
-      state.categoryList.isLoading = false;
-    });
+      })
+      .addCase(getHomeCategoryPlayList.pending, (state) => {
+        state.categoryPlayList.isLoading = true;
+      })
+      .addCase(
+        getHomeCategoryPlayList.fulfilled,
+        (
+          state,
+          action: PayloadAction<void | PlayListByCategoriesThunksSuccess>
+        ) => {
+          const {
+            categoryId,
+            data,
+          } = action.payload as PlayListByCategoriesThunksSuccess;
+          state.categoryPlayList.isLoading = false;
+          state.categoryPlayList.selectedId = categoryId;
+          if (data) {
+            state.categoryPlayList.data[categoryId] = data.playlists.items;
+          }
+        }
+      );
   },
 });
 
@@ -143,3 +156,9 @@ export const homePlayListMessage = (state: RootState) =>
   state.home.playLists.data.message ?? 'PLAYLIST';
 export const homeCategoryListSelector = (state: RootState) =>
   state.home.categoryList.data.categories.items;
+
+export const homeCategoryPlayListSelector = (state: RootState) =>
+  state.home.categoryPlayList.data;
+
+export const homeSelectedCategory = (state: RootState) =>
+  state.home.categoryPlayList.selectedId;

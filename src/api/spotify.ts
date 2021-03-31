@@ -1,14 +1,12 @@
-import axios, { AxiosRequestConfig, AxiosPromise } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import {
   ListOfNewReleasesParameter,
   ListOfNewReleasesResponse,
-  PlaylistObjectSimplified,
   ListOfFeaturedPlaylistsResponse,
   MultipleCategoriesResponse,
   ListOfCategoryParameter,
   ListofPlayListByCategoryParameter,
 } from '../types/spotify';
-import SpotifyApi from 'spotify-web-api-js';
 
 const client_id = '26e94a1b780d4626b4b9d79a397358ce';
 const client_secret = '1353f017549f41df8dd300ad14cfa9a6';
@@ -44,7 +42,6 @@ export const getNewReleases = ({
   limit = 10,
   offset = 0,
 }: ListOfNewReleasesParameter) => {
-  console.log('GetNewReleaseParam');
   return instance
     .get<ListOfNewReleasesResponse>('/v1/browse/new-releases', {
       params: { contry, limit, offset },

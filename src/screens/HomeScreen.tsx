@@ -32,9 +32,9 @@ const HomeScreen = ({ navigation, route }: Props) => {
   const playListMessage = useSelector(homePlayListMessage);
   const categoryList = useSelector(homeCategoryListSelector);
   useEffect(() => {
+    dispatch(getHomeCategoryList());
     dispatch(getHomeNewReleases());
     dispatch(getHomeFeaturedPlayList());
-    dispatch(getHomeCategoryList());
   }, []);
 
   const onSelectAlbum = (id: string) => {
@@ -44,13 +44,14 @@ const HomeScreen = ({ navigation, route }: Props) => {
   const onSelectPlayList = (id: string) => {
     console.log(id);
   };
+  console.log(categoryList);
 
   return (
     <View style={styles.wrapper}>
       <HomeContent title='New Release' link='test'>
         <NewReleaseAlbumList list={newReleaseList} onSelect={onSelectAlbum} />
       </HomeContent>
-      <HomeContent title={playListMessage} link='test'>
+      <HomeContent title={playListMessage || 'PlayList'} link='test'>
         <PlayListList list={playLists} onSelect={onSelectPlayList} />
       </HomeContent>
       <HomeContent title={'Category'} link='test'>

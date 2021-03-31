@@ -240,6 +240,11 @@ export interface MultipleCategoriesResponse {
   categories: PagingObject<CategoryObject>;
 }
 
+export interface PlayListByCategoriesThunksSuccess {
+  categoryId: string;
+  data: ListOfFeaturedPlaylistsResponse | void;
+}
+
 export interface CategoryObject {
   href: string;
   icons: ImageObject[];
