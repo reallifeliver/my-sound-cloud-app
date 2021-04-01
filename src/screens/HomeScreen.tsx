@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootTabParamList } from '../types/navigation';
@@ -47,7 +47,7 @@ const HomeScreen = ({ navigation, route }: Props) => {
   console.log(categoryList);
 
   return (
-    <View style={styles.wrapper}>
+    <ScrollView style={styles.wrapper}>
       <HomeContent title='New Release' link='test'>
         <NewReleaseAlbumList list={newReleaseList} onSelect={onSelectAlbum} />
       </HomeContent>
@@ -57,7 +57,7 @@ const HomeScreen = ({ navigation, route }: Props) => {
       <HomeContent title={'Category'} link='test'>
         <CategoryContainer categories={categoryList} />
       </HomeContent>
-    </View>
+    </ScrollView>
   );
 };
 
