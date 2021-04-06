@@ -15,8 +15,6 @@ interface Props {
 }
 
 const CategoryContainer = ({ categories }: Props) => {
-  console.log(categories);
-
   const categoryPlayList = useSelector(homeCategoryPlayListSelector);
   const selectedCategoryId = useSelector(homeSelectedCategory);
   const dispatch = useDispatch();
