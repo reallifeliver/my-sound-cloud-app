@@ -1,7 +1,7 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 
-export type RootTabParamList = {
-  HomeStack: {
+export type MainTabParamList = {
+  Home: {
     test: string;
   };
   PlayList: undefined;

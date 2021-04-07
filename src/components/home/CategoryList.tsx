@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { View, FlatList, Text, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import { CategoryObject } from 'types/spotify';
-import { baseProps } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlers';
 import CategoryItem from './CategoryItem';
 
 interface Props {

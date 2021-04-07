@@ -42,7 +42,7 @@ function VerticalItemList<I>({
               <View style={styles.info}>
                 <Text style={styles.title}>{title}</Text>
                 <Text numberOfLines={2} style={styles.subTitle}>
-                  {subtitle}asdfasdfasdfsdf
+                  {subtitle}
                 </Text>
               </View>
               {contextMenus && contextMenus.length > 0 && (
