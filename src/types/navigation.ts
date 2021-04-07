@@ -8,6 +8,7 @@ export type MainTabParamList = {
   MusicList: undefined;
 };
 
-export type HomeStackParamList = {
+export type RootStackParamList = {
   Main: undefined;
+  Album: undefined;
 };

@@ -4,8 +4,9 @@ import colors from '../styles/colors';
 import { createStackNavigator } from '@react-navigation/stack';
 import AlbumScreen from '../screens/AlbumScreen';
 import MainTabNavigation from './MainTabNavigation';
+import { RootStackParamList } from '../types/navigation';
 
-const RootStack = createStackNavigator();
+const RootStack = createStackNavigator<RootStackParamList>();
 
 export const RootStackNavigation = () => {
   return (

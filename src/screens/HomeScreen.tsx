@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import { RootTabParamList } from '../types/navigation';
 import HomeContent from '../components/home/HomeContent';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,12 +20,9 @@ import {
 import NewReleaseAlbumList from '../components/home/NewReleaseAlbumList';
 import PlayListList from '../components/home/PlayListList';
 import CategoryContainer from '../containers/home/CategoryContainer';
-interface Props {
-  navigation: StackNavigationProp<RootTabParamList, 'HomeStack'>;
-  route: RouteProp<RootTabParamList, 'HomeStack'>;
-}
 
-const HomeScreen = ({ navigation, route }: Props) => {
+const HomeScreen = () => {
+  const naviagation = useNavigation();
   const dispatch = useDispatch();
   const newReleaseList = useSelector(homeReleasesSelector);
   const playLists = useSelector(homePlayListsSelector);
@@ -38,7 +35,8 @@ const HomeScreen = ({ navigation, route }: Props) => {
   }, []);
 
   const onSelectAlbum = (id: string) => {
-    console.log(id);
+    naviagation.navigate('Album');
+    //naviagation.push('Album'); FIXME nested tab에서 push사용하는 법이 있다는데 TypeScript는 어떻게 해결하지?
   };
 
   const onSelectPlayList = (id: string) => {
