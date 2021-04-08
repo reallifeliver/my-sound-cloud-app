@@ -10,6 +10,9 @@ const colors = {
   G_700: '#616161',
   G_800: '#424242',
   G_900: '#212121',
+  WARN: '#CE1212',
+  CONFIRM: '#1597BB',
+  INFO: '#1597BB',
 };
 
 export default colors;

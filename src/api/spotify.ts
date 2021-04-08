@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import {
   ListOfNewReleasesParameter,
   ListOfNewReleasesResponse,
@@ -6,7 +6,11 @@ import {
   MultipleCategoriesResponse,
   ListOfCategoryParameter,
   ListofPlayListByCategoryParameter,
+  AlbumObjectFull,
 } from '../types/spotify';
+import { CustomErrorState } from '../types/error';
+import { store } from '../slice';
+import { errorActions } from '../slice/errorSlice';
 
 const client_id = '26e94a1b780d4626b4b9d79a397358ce';
 const client_secret = '1353f017549f41df8dd300ad14cfa9a6';
@@ -36,6 +40,17 @@ instance.interceptors.request.use(async (config: AxiosRequestConfig) => {
 
   return config;
 });
+
+instance.interceptors.response.use(
+  (value: AxiosResponse) => value,
+  (error: AxiosError) => {
+    const err: CustomErrorState = {
+      code: error.code,
+      message: error.message,
+    };
+    store.dispatch(errorActions.setError(err));
+  }
+);
 
 export const getNewReleases = ({
   contry = 'KR',
@@ -86,6 +101,13 @@ export const getPlayListByCategory = ({
         params: { contry, offset, limit },
       }
     )
+    .then((rtn) => rtn.data)
+    .catch((err) => console.error(err));
+};
+
+export const getAlbum = (id: string) => {
+  return instance
+    .get<AlbumObjectFull>(`v1/albums/${id}`)
     .then((rtn) => rtn.data)
     .catch((err) => console.error(err));
 };
