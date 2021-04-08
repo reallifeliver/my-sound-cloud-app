@@ -15,7 +15,7 @@ export const getNewReleases = ({
   offset = 0,
 }: ListOfNewReleasesParameter) => {
   return api
-    .get<ListOfNewReleasesResponse>('/v1/browse/new-releas', {
+    .get<ListOfNewReleasesResponse>('/v1/browse/new-releases', {
       params: { contry, limit, offset },
     })
     .then((rtn) => rtn.data);

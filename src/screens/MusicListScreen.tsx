@@ -2,10 +2,10 @@ import React from 'react';
 import { useLayoutEffect } from 'react';
 import { View, Text, Button } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootTabParamList } from 'types/navigation';
+import { MainTabParamList } from 'types/navigation';
 
 interface Props {
-  navigation: StackNavigationProp<RootTabParamList, 'MusicList'>;
+  navigation: StackNavigationProp<MainTabParamList, 'MusicList'>;
 }
 
 const MusicListScreen = ({ navigation }: Props) => {

@@ -6,9 +6,9 @@ import CategoryList from '../../components/home/CategoryList';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   homeCategoryPlayListSelector,
-  homeSelectedCategory,
-} from '../../slice/homeSlice';
-import { getHomeCategoryPlayList } from '../../slice/homeThunk';
+  homeSelectedCategorySelector,
+} from '../../slice/main/homeSlice';
+import { getHomeCategoryPlayList } from '../../slice/main/homeThunk';
 import VerticalItemList from '../../components/common/VerticalItemList';
 interface Props {
   categories: CategoryObject[];
@@ -16,7 +16,7 @@ interface Props {
 
 const CategoryContainer = ({ categories }: Props) => {
   const categoryPlayList = useSelector(homeCategoryPlayListSelector);
-  const selectedCategoryId = useSelector(homeSelectedCategory);
+  const selectedCategoryId = useSelector(homeSelectedCategorySelector);
   const dispatch = useDispatch();
   const onSelectCategory = (id: string) => {
     dispatch(getHomeCategoryPlayList(id));

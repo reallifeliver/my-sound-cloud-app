@@ -1,22 +1,20 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp, useNavigation } from '@react-navigation/native';
-import { RootTabParamList } from '../types/navigation';
+import { StyleSheet, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import HomeContent from '../components/home/HomeContent';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getHomeNewReleases,
   getHomeFeaturedPlayList,
   getHomeCategoryList,
-} from '../slice/homeThunk';
+} from '../slice/main/homeThunk';
 import {
   homeReleasesSelector,
   homePlayListsSelector,
-  homePlayListMessage,
+  homePlayListMessageSelector,
   homeCategoryListSelector,
-} from '../slice/homeSlice';
+} from '../slice/main/homeSlice';
 import NewReleaseAlbumList from '../components/home/NewReleaseAlbumList';
 import PlayListList from '../components/home/PlayListList';
 import CategoryContainer from '../containers/home/CategoryContainer';
@@ -26,7 +24,7 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
   const newReleaseList = useSelector(homeReleasesSelector);
   const playLists = useSelector(homePlayListsSelector);
-  const playListMessage = useSelector(homePlayListMessage);
+  const playListMessage = useSelector(homePlayListMessageSelector);
   const categoryList = useSelector(homeCategoryListSelector);
   useEffect(() => {
     dispatch(getHomeCategoryList());
