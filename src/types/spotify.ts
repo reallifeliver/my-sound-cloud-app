@@ -251,3 +251,4 @@ export interface CategoryObject {
   id: string;
   name: string;
 }
+

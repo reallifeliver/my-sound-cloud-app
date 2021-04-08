@@ -1,4 +1,4 @@
 export interface CustomErrorState {
-  code: undefined | string;
+  status: number | undefined;
   message: string;
 }
