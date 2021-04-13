@@ -3,6 +3,7 @@ import { View, FlatList, StyleSheet } from 'react-native';
 import { AlbumObjectFull } from '../../types/spotify';
 import colors from '../../styles/colors';
 import ThumbnailItem from '../common/ThumnailItem';
+import { getArtistSummary } from '../../utils/artist';
 
 interface Props {
   onSelect: (id: string) => void;
@@ -20,11 +21,7 @@ const NewReleaseAlbumList = ({ list, onSelect }: Props) => {
           <ThumbnailItem
             title={item.name}
             key={item.id}
-            subTitle={
-              item.artists.length > 1
-                ? `${item.artists[0].name} 외 ${item.artists.length - 1}명`
-                : item.artists[0].name
-            }
+            subTitle={getArtistSummary(item.artists)}
             thumbnail={item.images[0].url}
             onPress={() => onSelect(item.id)}
           />

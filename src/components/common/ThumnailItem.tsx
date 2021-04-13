@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import colors from '../../styles/colors';
+import Thumbnail from './Thumbnail';
 interface Props {
   title: string;
   subTitle: string;
@@ -18,7 +19,7 @@ const ThumbnailItem = ({ title, subTitle, thumbnail, onPress }: Props) => {
   return (
     <View style={styles.wrapper}>
       <TouchableHighlight onPress={onPress}>
-        <Image style={styles.thumbnail} source={{ uri: thumbnail }}></Image>
+        <Thumbnail size='m' source={thumbnail} />
       </TouchableHighlight>
       <View style={styles.footer}>
         <Text style={styles.title} numberOfLines={2}>
@@ -47,11 +48,6 @@ const styles = StyleSheet.create({
     paddingTop: 4,
     color: colors.G_700,
     fontSize: 14,
-  },
-  thumbnail: {
-    width: 150,
-    height: 150,
-    borderRadius: 3,
   },
 });
 export default ThumbnailItem;

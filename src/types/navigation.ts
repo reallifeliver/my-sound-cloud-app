@@ -10,5 +10,7 @@ export type MainTabParamList = {
 
 export type RootStackParamList = {
   Main: undefined;
-  Album: undefined;
+  Album: {
+    id: string;
+  };
 };

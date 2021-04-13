@@ -33,7 +33,7 @@ const HomeScreen = () => {
   }, []);
 
   const onSelectAlbum = (id: string) => {
-    naviagation.navigate('Album');
+    naviagation.navigate('Album', { id });
     //naviagation.push('Album'); FIXME nested tab에서 push사용하는 법이 있다는데 TypeScript는 어떻게 해결하지?
   };
 

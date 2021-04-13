@@ -71,6 +71,7 @@ export interface AlbumObjectFull extends AlbumObjectSimplified {
   popularity: number;
   release_date: string;
   release_date_precision: string;
+  tracks: PagingObject<TrackObjectSimplified>;
 }
 
 export interface PageParameter {
@@ -251,4 +252,3 @@ export interface CategoryObject {
   id: string;
   name: string;
 }
-

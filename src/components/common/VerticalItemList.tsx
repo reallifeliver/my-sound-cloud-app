@@ -11,6 +11,7 @@ import {
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import colors from '../../styles/colors';
+import Thumbnail from './Thumbnail';
 interface Props<T> {
   items: T[];
   getItemContent: (item: T) => VerticalItemContent;
@@ -38,7 +39,7 @@ function VerticalItemList<I>({
             onPress={() => onSelect(item)}
           >
             <View style={styles.listItem}>
-              <Image style={styles.thumbnail} source={{ uri: thumbnail }} />
+              <Thumbnail source={thumbnail} size={'s'} />
               <View style={styles.info}>
                 <Text style={styles.title}>{title}</Text>
                 <Text numberOfLines={2} style={styles.subTitle}>
@@ -74,12 +75,6 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 8,
     width: '100%',
-  },
-  thumbnail: {
-    flex: 0,
-    width: 80,
-    height: 80,
-    borderRadius: 4,
   },
   info: {
     flex: 1,
