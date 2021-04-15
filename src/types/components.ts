@@ -8,4 +8,5 @@ export type VerticalItemContent = {
 export type ContextMenuItem<T> = {
   title: string;
   onPress: (item: T) => void;
+  icon?: string;
 };

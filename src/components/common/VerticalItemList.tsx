@@ -38,8 +38,10 @@ function VerticalItemList<I>({
 }: Props<I>) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isContextOpen, setIsContextOpen] = useState<boolean>(false);
-  const onContext = () => {
+  const [menuTarget, setMenuTarget] = useState<I | null>(null);
+  const onContext = (item: I) => {
     setIsContextOpen(true);
+    setMenuTarget(item);
   };
 
   const onEndReached = async () => {
@@ -76,7 +78,7 @@ function VerticalItemList<I>({
                     underlayColor={colors.G_300}
                     activeOpacity={0.3}
                     style={styles.contextMenu}
-                    onPress={onContext}
+                    onPress={() => onContext(item)}
                   >
                     <View>
                       <Ionicons name='ellipsis-horizontal-outline' size={16} />
@@ -90,6 +92,7 @@ function VerticalItemList<I>({
       />
       {contextMenus && (
         <ContextMenuModal<I>
+          target={menuTarget}
           visible={isContextOpen}
           menuItems={contextMenus}
           onClose={() => setIsContextOpen(false)}
