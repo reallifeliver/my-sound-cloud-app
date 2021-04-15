@@ -4,16 +4,34 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 import { RootState } from 'slice';
-import { AlbumObjectFull } from 'types/spotify';
+import {
+  AlbumObjectFull,
+  PagingObject,
+  TrackObjectSimplified,
+} from 'types/spotify';
 import { getAlbumInfoThunk } from './albumThunk';
 
 export interface AlbumSliceState {
-  data: AlbumObjectFull | null;
+  data: {
+    info: Omit<AlbumObjectFull, 'tracks'> | null;
+    tracks: PagingObject<TrackObjectSimplified>;
+  };
   isLoading: boolean;
 }
 
 const initialState: AlbumSliceState = {
-  data: null,
+  data: {
+    info: null,
+    tracks: {
+      href: '',
+      items: [],
+      limit: 0,
+      next: '',
+      offset: 0,
+      previous: '',
+      total: 0,
+    },
+  },
   isLoading: false,
 };
 
@@ -30,7 +48,9 @@ const AlbumSlice = createSlice({
         getAlbumInfoThunk.fulfilled,
         (state, action: PayloadAction<AlbumObjectFull>) => {
           state.isLoading = false;
-          state.data = action.payload;
+          const { tracks, ...info } = action.payload;
+          state.data.info = info;
+          state.data.tracks = tracks;
         }
       )
       .addCase(getAlbumInfoThunk.rejected, (state) => {
@@ -42,4 +62,6 @@ const AlbumSlice = createSlice({
 export const albumActions = AlbumSlice.actions;
 export const albumReducer = AlbumSlice.reducer;
 
-export const albumInfoSelector = (state: RootState) => state.album.data;
+export const albumInfoSelector = (state: RootState) => state.album.data.info;
+export const albumTracksSelector = (state: RootState) =>
+  state.album.data.tracks;

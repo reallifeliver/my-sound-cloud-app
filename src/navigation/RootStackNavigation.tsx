@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AlbumScreen from '../screens/AlbumScreen';
 import MainTabNavigation from './MainTabNavigation';
 import { RootStackParamList } from '../types/navigation';
-import ErrorModal from '../components/common/ErrorModal';
+import ErrorModal from '../components/common/modal/ErrorModal';
 import { useSelector, useDispatch } from 'react-redux';
 import { errorSelector, errorActions } from '../slice/errorSlice';
 const RootStack = createStackNavigator<RootStackParamList>();

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Modal, StyleSheet, Text, Pressable, View } from 'react-native';
-import { CustomErrorState } from '../../types/error';
-import colors from '../../styles/colors';
+import { CustomErrorState } from '../../../types/error';
+import colors from '../../../styles/colors';
 interface Props {
   error: CustomErrorState | null;
   onClose: () => void;

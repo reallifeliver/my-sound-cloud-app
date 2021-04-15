@@ -8,6 +8,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { albumInfoSelector } from '../slice/root/albumSlice';
 import AlbumInfo from '../components/album/AlbumInfo';
 import { getArtistSummary } from '../utils/artist';
+import AlbumTrackListContainer from '../containers/album/AlbumTrackListContainer';
+
 type AlbumScreenRouteProps = RouteProp<RootStackParamList, 'Album'>;
 type AlbumScreenNavigationProps = StackNavigationProp<
   RootStackParamList,
@@ -25,18 +27,16 @@ const AlbumScreen = () => {
   console.log(albumInfo);
 
   if (!albumInfo) return <Text>loading</Text>;
-  const { artists, images, popularity, name, release_date, tracks } = albumInfo;
+  const { artists, images, name, release_date } = albumInfo;
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <AlbumInfo
         albumTitle={name}
         thumbnail={images[0].url}
         artist={getArtistSummary(artists)}
         releasedAt={release_date}
-        trackCnt={tracks.total}
-        popularity={popularity}
       />
-      <Text>album</Text>
+      <AlbumTrackListContainer thumbnail={images[0].url} />
     </View>
   );
 };

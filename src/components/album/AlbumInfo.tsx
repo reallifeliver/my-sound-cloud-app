@@ -8,17 +8,10 @@ interface Props {
   thumbnail: string;
   releasedAt: string;
   artist: string;
-  trackCnt: number;
   albumTitle: string;
 }
 
-const AlbumInfo = ({
-  artist,
-  releasedAt,
-  trackCnt,
-  thumbnail,
-  albumTitle,
-}: Props) => {
+const AlbumInfo = ({ artist, releasedAt, thumbnail, albumTitle }: Props) => {
   return (
     <Section style={styles.layout}>
       <Thumbnail source={thumbnail} size='l' />
@@ -41,7 +34,6 @@ const AlbumInfo = ({
           {artist}
         </Text>
         <Text style={styles.otherInfo}>{releasedAt}</Text>
-        <Text style={styles.otherInfo}>{trackCnt} Tracks</Text>
       </View>
     </Section>
   );

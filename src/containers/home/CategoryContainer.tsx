@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { View } from 'react-native';
+import { Text } from 'react-native';
 import { CategoryObject, PlaylistObjectSimplified } from 'types/spotify';
 import CategoryList from '../../components/home/CategoryList';
 import { useSelector, useDispatch } from 'react-redux';

@@ -1,11 +1,11 @@
-export interface VerticalItemContent {
+export type VerticalItemContent = {
   title: string;
   subtitle: string;
   thumbnail: string;
   key?: string | number;
-}
+};
 
-export interface ContextMenuItem<T> {
+export type ContextMenuItem<T> = {
   title: string;
   onPress: (item: T) => void;
-}
+};
