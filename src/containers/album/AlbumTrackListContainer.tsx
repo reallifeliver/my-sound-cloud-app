@@ -7,6 +7,7 @@ import { albumTracksSelector } from '../../slice/root/albumSlice';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { Text } from 'react-native';
 import { ContextMenuItem } from 'types/components';
+import storage from '../../storage';
 
 type Props = {
   thumbnail: string;
@@ -20,7 +21,9 @@ const AlbumTrackListContainer = ({ thumbnail }: Props) => {
   const contextMenus: ContextMenuItem<TrackObjectSimplified>[] = [
     {
       title: 'Add PlayList',
-      onPress: (item) => {},
+      onPress: async (item: TrackObjectSimplified) => {
+        await storage.playlist.addItem(item);
+      },
     },
   ];
 

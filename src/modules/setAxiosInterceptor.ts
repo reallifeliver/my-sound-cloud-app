@@ -4,15 +4,15 @@ import { CustomErrorState } from '../types/error';
 import { errorActions } from '../slice/errorSlice';
 import { EnhancedStore, CombinedState } from '@reduxjs/toolkit';
 import { RootState } from '../slice';
-
+import { encode } from 'base-64';
 const setAxoisInterceptor = (
   store: EnhancedStore<CombinedState<RootState>>
 ) => {
   // FIXME 환경변수로 빼자
   const client_id = '26e94a1b780d4626b4b9d79a397358ce';
   const client_secret = '1353f017549f41df8dd300ad14cfa9a6';
-
-  const auth = btoa(client_id + ':' + client_secret);
+  console.log(window);
+  const auth = encode(client_id + ':' + client_secret);
 
   const getAuthParam = new URLSearchParams();
   getAuthParam.append('grant_type', 'client_credentials');
